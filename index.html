@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Torneo Algorítmico</title>
+</head>
+<body>
+
+    <h1>Piedra, Papel o Tijera</h1>
+    <p>¡Jugá contra la máquina! El primero en ganar 3 rondas será el campeón.</p>
+
+    <button onclick="jugarTorneo()">Comenzar torneo</button>
+
+    <script>
+        function jugarTorneo() {
+
+            let victoriasUsuario = 0;
+            let victoriasMaquina = 0;
+
+            // El torneo continúa mientras ninguno llegue a 3 victorias
+            while (victoriasUsuario < 3 && victoriasMaquina < 3) {
+
+                let jugada = prompt("Elegí: Piedra, Papel o Tijera");
+
+                // Normalizamos la respuesta para aceptar mayúsculas y minúsculas
+                if (jugada === null) {
+                    alert("Cancelaste el torneo.");
+                    return;
+                }
+
+                jugada = jugada.toLowerCase().trim();
+
+                if (jugada !== "piedra" && jugada !== "papel" && jugada !== "tijera") {
+                    alert("Jugada inválida. Tenés que elegir piedra, papel o tijera.");
+                    continue;
+                }
+
+                // La máquina elige al azar
+                let azar = Math.random();
+                let jugadaMaquina = "";
+
+                if (azar < 0.33) {
+                    jugadaMaquina = "piedra";
+                } else if (azar < 0.66) {
+                    jugadaMaquina = "papel";
+                } else {
+                    jugadaMaquina = "tijera";
+                }
+
+                console.log(`La máquina eligió: ${jugadaMaquina}`);
+                console.log(`Vos elegiste: ${jugada}`);
+
+                // Determinamos quién gana la ronda
+                if (jugada === jugadaMaquina) {
+                    alert("¡Empate! Nadie suma puntos.");
+                } else if (
+                    (jugada === "piedra" && jugadaMaquina === "tijera") ||
+                    (jugada === "papel" && jugadaMaquina === "piedra") ||
+                    (jugada === "tijera" && jugadaMaquina === "papel")
+                ) {
+                    victoriasUsuario++;
+                    alert("¡Ganaste esta ronda!");
+                } else {
+                    victoriasMaquina++;
+                    alert("La máquina ganó esta ronda.");
+                }
+
+                console.log(`Puntaje: Vos ${victoriasUsuario} - Máquina ${victoriasMaquina}`);
+            }
+
+            // Anunciamos al campeón usando un operador ternario
+            let campeon = victoriasUsuario === 3 ? "¡Ganaste el torneo!" : "¡La máquina ganó el torneo!";
+
+            alert(campeon);
+            console.log(campeon);
+        }
+    </script>
+
+</body>
+</html>
